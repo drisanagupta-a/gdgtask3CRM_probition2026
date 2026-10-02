@@ -621,30 +621,45 @@ const TaskCRMStore = (function () {
     return newCustomer;
   }
 
+  
   function updateCustomer(id, patch) {
-    const list = getCustomers();
-    const index = list.findIndex(c => c.id === id);
+  const list = getCustomers();
+  const index = list.findIndex(c => c.id === id);
 
-    if (index === -1) return null;
+  if (index === -1) return null;
 
-    list[index] = {
-      ...list[index],
-      ...patch
-    };
+  const previous = list[index];
 
-    safeSet(STORAGE_KEYS.CUSTOMERS, list);
+  list[index] = {
+    ...previous,
+    ...patch
+  };
 
-    return list[index];
-  }
+  safeSet(STORAGE_KEYS.CUSTOMERS, list);
 
-  function deleteCustomer(id) {
-    const list = getCustomers();
-    const filtered = list.filter(c => c.id !== id);
+  addActivity(
+    `Customer updated: ${list[index].name} (${list[index].company})`
+  );
 
-    safeSet(STORAGE_KEYS.CUSTOMERS, filtered);
+  return list[index];
+}
 
-    return true;
-  }
+function deleteCustomer(id) {
+  const list = getCustomers();
+  const customer = list.find(c => c.id === id);
+
+  if (!customer) return false;
+
+  const filtered = list.filter(c => c.id !== id);
+
+  safeSet(STORAGE_KEYS.CUSTOMERS, filtered);
+
+  addActivity(
+    `Customer deleted: ${customer.name} (${customer.company})`
+  );
+
+  return true;
+}
 
   function getLeads() {
     return safeGet(STORAGE_KEYS.LEADS, []);

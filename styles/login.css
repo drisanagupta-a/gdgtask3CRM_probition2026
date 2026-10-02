@@ -1,0 +1,320 @@
+.login-page {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6);
+  background-color: var(--color-bg);
+}
+
+.login-card {
+  position: relative;
+  width: min(420px, 100%);
+  background: rgba(255, 255, 255, 0.97);
+  border: 1px solid rgba(17, 17, 17, 0.22);
+  box-shadow: 0 20px 55px rgba(17, 17, 17, 0.12);
+  animation: login-card-enter 650ms cubic-bezier(0.2, 0, 0, 1) both;
+}
+
+.login-card__header::before {
+  content: "";
+  display: block;
+  width: 13px;
+  height: 13px;
+  margin-bottom: 28px;
+  background-color: var(--color-accent);
+  box-shadow: 13px 13px 0 var(--color-ink);
+  animation: mark-enter 700ms ease-out both;
+}
+
+.login-card__header .brand-title,
+.login-card__header .brand-context,
+.login-card__header .brand-separator,
+.login-card__header .brand-symbol {
+  display: none;
+}
+
+.login-card__header h1 {
+  font-size: clamp(2rem, 4vw, 2.6rem);
+  font-weight: var(--weight-bold);
+  line-height: 1;
+  letter-spacing: -0.045em;
+  margin-bottom: var(--space-2);
+  animation: text-enter 600ms ease-out 120ms both;
+}
+
+.login-card__header p {
+  color: var(--color-muted);
+  max-width: 34rem;
+  animation: text-enter 600ms ease-out 200ms both;
+}
+
+.login-card .form-group {
+  animation: form-enter 500ms ease-out 280ms both;
+}
+
+.login-card .form-label {
+  letter-spacing: 0.055em;
+}
+
+.login-card .form-input {
+  min-height: 50px;
+  background-color: var(--color-surface);
+  border-color: #cfcfc9;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease,
+    color 160ms ease;
+}
+
+.login-card .form-input::placeholder {
+  color: #9e9e98;
+}
+
+.login-card .form-input:not(:placeholder-shown) {
+  color: var(--color-accent);
+  font-weight: var(--weight-medium);
+}
+
+.login-card .form-input:hover {
+  border-color: #a8a8a2;
+}
+
+.login-card .form-input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(228, 61, 48, 0.12);
+  transform: translateY(-1px);
+  color: var(--color-accent);
+}
+
+.login-card button[type="submit"],
+.login-card .btn--primary {
+  min-height: 50px;
+  background-color: var(--color-accent);
+  border: 1px solid var(--color-accent);
+  color: #fff;
+  transition:
+    background-color 160ms ease,
+    transform 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.login-card button[type="submit"]:hover,
+.login-card .btn--primary:hover {
+  background-color: #c93227;
+  border-color: #c93227;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(228, 61, 48, 0.22);
+}
+
+.login-card button[type="submit"]:active,
+.login-card .btn--primary:active {
+  transform: translateY(0);
+}
+
+.login-card__hint {
+  background-color: #f7f5f0;
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-accent);
+  transition:
+    border-color 160ms ease,
+    transform 160ms ease;
+}
+
+.login-card__hint:hover {
+  border-left-color: var(--color-ink);
+  transform: translateX(2px);
+}
+
+.login-card::before {
+  content: "";
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  left: -42px;
+  top: 22%;
+  background-color: var(--color-accent);
+  box-shadow:
+    -18px 32px 0 var(--color-ink),
+    12px 67px 0 var(--color-accent);
+  animation: left-pattern 5s ease-in-out infinite;
+}
+
+.login-card::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  right: -44px;
+  top: 27%;
+  background-color: var(--color-ink);
+  box-shadow:
+    18px 35px 0 var(--color-accent),
+    -10px 72px 0 var(--color-ink);
+  animation: right-pattern 5.5s ease-in-out infinite;
+}
+
+.login-page::before {
+  content: "";
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  left: calc(50% - 255px);
+  bottom: 25%;
+  background-color: var(--color-ink);
+  box-shadow:
+    22px 22px 0 var(--color-accent);
+  animation: left-bottom 6s ease-in-out infinite;
+  z-index: -1;
+}
+
+.login-page::after {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  right: calc(50% - 255px);
+  bottom: 25%;
+  background-color: var(--color-accent);
+  box-shadow:
+    -22px 22px 0 var(--color-ink);
+  animation: right-bottom 6s ease-in-out infinite;
+  z-index: -1;
+}
+
+@keyframes login-card-enter {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes mark-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.8);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes text-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes form-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes left-pattern {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(5px, -8px);
+  }
+}
+
+@keyframes right-pattern {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(-5px, 8px);
+  }
+}
+
+@keyframes left-bottom {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(6px, -6px);
+  }
+}
+
+@keyframes right-bottom {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(-6px, -6px);
+  }
+}
+
+@media (max-width: 700px) {
+  .login-page {
+    padding: var(--space-4);
+  }
+
+  .login-card {
+    width: 100%;
+    box-shadow: 0 12px 35px rgba(17, 17, 17, 0.12);
+  }
+
+  .login-card::before,
+  .login-card::after {
+    display: none;
+  }
+
+  .login-page::before {
+    left: 15%;
+    bottom: 15%;
+  }
+
+  .login-page::after {
+    right: 15%;
+    bottom: 15%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .login-card,
+  .login-card__header::before,
+  .login-card__header h1,
+  .login-card__header p,
+  .login-card .form-group,
+  .login-card::before,
+  .login-card::after,
+  .login-page::before,
+  .login-page::after {
+    animation: none !important;
+  }
+}

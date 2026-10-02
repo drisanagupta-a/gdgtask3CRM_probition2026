@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customers — Task CRM</title>
+  <meta name="description" content="Customer relationship directory with debounced search and status filtering.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles/reset.css">
+  <link rel="stylesheet" href="styles/tokens.css">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/patterns.css">
+</head>
+
+<body class="app-wrapper customers-page">
+
+  <header class="identity-bar">
+    <div class="identity-bar__inner">
+      <div class="identity-session">
+        <span class="session-user">
+          <span class="meta-slug">Session:</span>
+          <strong id="sessionUserDisplay">admin@taskcrm.io</strong>
+        </span>
+
+        <button type="button" id="logoutBtn" class="session-logout-btn" title="Sign out of current session">
+          Sign Out
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="nav-rail" aria-label="Main Navigation">
+    <div class="nav-rail__inner">
+      <a href="dashboard.html" class="nav-link" data-page="dashboard">Dashboard</a>
+      <a href="customers.html" class="nav-link" data-page="customers">Customers</a>
+      <a href="leads.html" class="nav-link" data-page="leads">Leads</a>
+      <a href="tasks.html" class="nav-link" data-page="tasks">Tasks</a>
+    </div>
+  </nav>
+
+  <main class="main-container">
+
+    <header class="page-header">
+      <div class="page-header__top">
+        <div>
+          <h1 class="page-title">Customers</h1>
+          <p class="page-subtitle">Search, view, and add customer records</p>
+        </div>
+
+        <div class="page-actions">
+          <button type="button" id="openAddCustomerModalBtn" class="btn btn--accent">
+            + Add Customer
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="content-panel">
+
+      <div class="filter-bar">
+        <div class="filter-group">
+
+          <div class="search-box">
+            <span class="search-icon" aria-hidden="true">⌕</span>
+
+            <input
+              type="search"
+              id="customerSearch"
+              class="form-input"
+              placeholder="Filter by name, email, or company..."
+              aria-label="Search customers by name, email, or company"
+            >
+          </div>
+
+          <label for="customerStatusFilter" class="sr-only">
+            Filter by Status
+          </label>
+
+          <select id="customerStatusFilter" class="filter-select">
+            <option value="all">All Statuses (Active, Inactive, Prospect)</option>
+            <option value="Active">Active Only</option>
+            <option value="Inactive">Inactive Only</option>
+            <option value="Prospect">Prospect Only</option>
+          </select>
+        </div>
+
+        <div id="customerResultCount" class="filter-stats" aria-live="polite">
+          Loading accounts...
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table class="crm-table" aria-label="Customer Accounts Table">
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Email</th>
+              <th scope="col">Phone</th>
+              <th scope="col">Company</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+
+          <tbody id="customersTableBody"></tbody>
+        </table>
+      </div>
+
+    </div>
+  </main>
+
+  <dialog id="addCustomerDialog" class="crm-dialog" aria-labelledby="addCustomerModalTitle">
+
+    <header class="dialog-header">
+      <h2 id="addCustomerModalTitle" class="dialog-title">Add Customer</h2>
+
+      <button
+        type="button"
+        id="closeCustomerDialogBtn"
+        class="dialog-close-btn"
+        aria-label="Close dialog"
+      >
+        ✕
+      </button>
+    </header>
+
+    <div id="customerModalAlert" style="padding: 0 var(--space-6) var(--space-2);"></div>
+
+    <form id="addCustomerForm">
+
+      <div class="dialog-body">
+
+        <div class="form-group">
+          <label for="newCustomerName" class="form-label">
+            Full Name <span class="required-mark">*</span>
+          </label>
+
+          <input
+            type="text"
+            id="newCustomerName"
+            class="form-input"
+            placeholder="e.g. Ananya Sharma"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="newCustomerEmail" class="form-label">
+            Email Address <span class="required-mark">*</span>
+          </label>
+
+          <input
+            type="email"
+            id="newCustomerEmail"
+            class="form-input"
+            placeholder="name@company.com"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="newCustomerPhone" class="form-label">
+            Telephone
+          </label>
+
+          <input
+            type="tel"
+            id="newCustomerPhone"
+            class="form-input"
+            placeholder="+91 98765 43210"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="newCustomerCompany" class="form-label">
+            Company / Entity <span class="required-mark">*</span>
+          </label>
+
+          <input
+            type="text"
+            id="newCustomerCompany"
+            class="form-input"
+            placeholder="e.g. TechNova Solutions"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="newCustomerStatus" class="form-label">
+            Account Status
+          </label>
+
+          <select id="newCustomerStatus" class="form-select">
+            <option value="Active">Active</option>
+            <option value="Prospect" selected>Prospect</option>
+            <option value="Inactive">Inactive</option>
+          </select>
+        </div>
+
+      </div>
+
+      <footer class="dialog-footer">
+        <button type="button" id="cancelCustomerDialogBtn" class="btn btn--secondary">
+          Cancel
+        </button>
+
+        <button type="submit" class="btn btn--accent">
+          Save Customer
+        </button>
+      </footer>
+
+    </form>
+  </dialog>
+
+  <script src="scripts/helpers.js"></script>
+  <script src="scripts/store.js"></script>
+  <script src="scripts/view.js"></script>
+  <script src="scripts/pages/customers.js"></script>
+
+</body>
+</html>

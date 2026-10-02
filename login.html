@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — CRM</title>
+  <meta name="description" content="Secure operator sign-in for Task CRM editorial management system.">
+  
+  <!-- Typography: Inter via Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Core Stylesheets -->
+  <link rel="stylesheet" href="styles/reset.css">
+  <link rel="stylesheet" href="styles/tokens.css">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/patterns.css">
+  
+<link rel="stylesheet" href="styles/login.css">
+</head>
+<body class="login-page">
+
+  <main class="login-card" aria-labelledby="loginTitle">
+    <header class="login-card__header">
+      <div class="identity-brand" style="margin-bottom: var(--space-4);">
+        <span class="brand-symbol" aria-hidden="true"></span>
+        <span class="brand-title">TASK / CRM</span>
+      </div>
+      <h1 id="loginTitle" class="page-title" style="font-size: var(--text-xl);">Sign in </h1>
+      <p class="text-muted" style="font-size: var(--text-sm); margin-top: 4px;">
+        Manage customers, leads, and follow-ups in one place.
+      </p>
+    </header>
+
+    <div id="loginAlertContainer" aria-live="polite"></div>
+
+    <form id="loginForm" novalidate>
+      <div class="form-group">
+        <label for="email" class="form-label">
+          Email / Username <span class="required-mark">*</span>
+        </label>
+        <input 
+          type="email" 
+          id="email" 
+          name="email" 
+          class="form-input" 
+          placeholder="admin@taskcrm.io" 
+          autocomplete="username" 
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="password" class="form-label">
+          Password <span class="required-mark">*</span>
+        </label>
+        <input 
+          type="password" 
+          id="password" 
+          name="password" 
+          class="form-input" 
+          placeholder="••••••••" 
+          autocomplete="current-password" 
+          required
+        >
+      </div>
+
+      <div style="margin-top: var(--space-6);">
+        <button type="submit" id="submitLoginBtn" class="btn btn--primary" style="width: 100%;">
+          Sign In →
+        </button>
+      </div>
+    </form>
+
+    <aside class="login-card__hint" aria-label="Demo credentials">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+        <span class="meta-slug">Demo Credentials</span>
+        <button type="button" id="fillDemoCredentials" class="btn btn--ghost btn--sm" style="padding: 2px 6px;">
+          Auto-fill
+        </button>
+      </div>
+      <div><strong>Email:</strong> admin@taskcrm.io</div>
+      <div><strong>Password:</strong> admin</div>
+      <div style="margin-top: 4px; color: var(--color-muted);">
+        Secondary: <code>demo@taskcrm.io</code> / <code>demo</code>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Application Logic -->
+  <script src="scripts/helpers.js"></script>
+  <script src="scripts/store.js"></script>
+  <script src="scripts/view.js"></script>
+  <script src="scripts/pages/login.js"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="0; url=login.html">
+  <title>Redirecting — Task CRM</title>
+  <script>
+  
+    try {
+      const session = localStorage.getItem('task_crm_session');
+      if (session && JSON.parse(session).token) {
+        window.location.replace('dashboard.html');
+      } else {
+        window.location.replace('login.html');
+      }
+    } catch (e) {
+      window.location.replace('login.html');
+    }
+  </script>
+</head>
+<body style="font-family: sans-serif; background: #F8F8F6; color: #111111; padding: 2rem; text-align: center;">
+  <p>Redirecting to <a href="login.html">Task CRM</a>...</p>
+</body>
+</html>

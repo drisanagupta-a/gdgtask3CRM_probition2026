@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <meta name="description" content="CRM dashboard for customers, leads, sales and tasks.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles/reset.css">
+  <link rel="stylesheet" href="styles/tokens.css">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/patterns.css">
+</head>
+
+<body class="app-wrapper dashboard-page">
+
+  <header class="crm-topbar">
+    <div class="crm-topbar__inner">
+
+      <a href="dashboard.html" class="crm-brand" aria-label="Task CRM">
+  <span class="crm-brand__mark">CRM</span>
+</a>
+      <nav class="crm-nav" aria-label="Main Navigation">
+        <a href="dashboard.html" class="crm-nav__link nav-link" data-page="dashboard">
+          Dashboard
+        </a>
+
+        <a href="customers.html" class="crm-nav__link nav-link" data-page="customers">
+          Customers
+        </a>
+
+        <a href="leads.html" class="crm-nav__link nav-link" data-page="leads">
+          Leads
+        </a>
+
+        <a href="tasks.html" class="crm-nav__link nav-link" data-page="tasks">
+          Tasks
+        </a>
+      </nav>
+
+      <div class="crm-topbar__actions">
+        <button type="button" id="logoutBtn" class="crm-signout">
+          Sign Out
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <main class="main-container dashboard-main">
+
+    <header class="dashboard-header">
+      <div>
+        <span class="dashboard-eyebrow">Workspace</span>
+        <h1 class="dashboard-title">Dashboard</h1>
+        <p class="dashboard-subtitle">
+          Here's what's happening with your CRM today.
+        </p>
+      </div>
+
+      <div class="dashboard-actions">
+        <button type="button" id="resetDataBtn" class="btn btn--secondary btn--sm">
+          ↻ Reset Sample Data
+        </button>
+
+        <a href="customers.html" class="btn btn--primary btn--sm">
+          + Add Customer
+        </a>
+      </div>
+    </header>
+
+    <section class="dashboard-kpis" aria-label="Key Performance Metrics">
+      <div id="dashboardStatsContainer" class="dashboard-kpis__grid"></div>
+    </section>
+
+    <section class="dashboard-analytics">
+
+      <article class="dashboard-card goals-card">
+        <div class="dashboard-card__header">
+          <div>
+            <span class="dashboard-card__eyebrow">Performance</span>
+            <h2>Goals</h2>
+          </div>
+
+          <span class="dashboard-card__badge">Monthly</span>
+        </div>
+
+        <div id="goalsContainer"></div>
+      </article>
+
+      <article class="dashboard-card pipeline-card">
+        <div class="dashboard-card__header">
+          <div>
+            <span class="dashboard-card__eyebrow">Overview</span>
+            <h2>Lead Status</h2>
+          </div>
+
+          <a href="leads.html" class="dashboard-card__link">
+            View Leads →
+          </a>
+        </div>
+
+        <div id="leadPipelineContainer"></div>
+      </article>
+
+    </section>
+
+    <section class="dashboard-lower">
+
+      <article class="dashboard-card dashboard-list-card">
+        <div class="dashboard-card__header">
+          <div>
+            <span class="dashboard-card__eyebrow">Prospects</span>
+            <h2>Recent Leads</h2>
+          </div>
+
+          <a href="leads.html" class="dashboard-card__link">
+            View All →
+          </a>
+        </div>
+
+        <div id="recentLeadsContainer"></div>
+      </article>
+
+      <article class="dashboard-card dashboard-list-card">
+        <div class="dashboard-card__header">
+          <div>
+            <span class="dashboard-card__eyebrow">Updates</span>
+            <h2>Recent Activity</h2>
+          </div>
+        </div>
+
+        <div id="recentActivitiesContainer"></div>
+      </article>
+
+      <article class="dashboard-card dashboard-list-card">
+        <div class="dashboard-card__header">
+          <div>
+            <span class="dashboard-card__eyebrow">Today</span>
+            <h2>Today's Tasks</h2>
+          </div>
+
+          <a href="tasks.html" class="dashboard-card__link">
+            View All →
+          </a>
+        </div>
+
+        <div id="todayTasksContainer"></div>
+      </article>
+
+    </section>
+
+  </main>
+
+  <script src="scripts/helpers.js"></script>
+  <script src="scripts/store.js"></script>
+  <script src="scripts/view.js"></script>
+  <script src="scripts/pages/dashboard.js"></script>
+
+</body>
+</html>

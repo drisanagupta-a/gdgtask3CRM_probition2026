@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leads Pipeline — Task CRM</title>
+  <meta name="description" content="Sales prospect pipeline with follow-up tracking and overdue detection.">
+
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  
+  <link rel="stylesheet" href="styles/reset.css">
+  <link rel="stylesheet" href="styles/tokens.css">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/patterns.css">
+</head>
+<body class="app-wrapper">
+
+  
+  <header class="identity-bar">
+    <div class="identity-bar__inner">
+  <div class="identity-session">
+        <span class="session-user">
+          <span class="meta-slug">Session:</span>
+          <strong id="sessionUserDisplay">admin@taskcrm.io</strong>
+        </span>
+        <button type="button" id="logoutBtn" class="session-logout-btn" title="Sign out of current session">
+          Sign Out
+        </button>
+      </div>
+    </div>
+  </header>
+
+  
+  <nav class="nav-rail" aria-label="Main Navigation">
+    <div class="nav-rail__inner">
+      <a href="dashboard.html" class="nav-link" data-page="dashboard">Dashboard</a>
+      <a href="customers.html" class="nav-link" data-page="customers">Customers</a>
+      <a href="leads.html" class="nav-link" data-page="leads">Leads</a>
+      <a href="tasks.html" class="nav-link" data-page="tasks">Tasks</a>
+    </div>
+  </nav>
+
+  
+  <main class="main-container">
+    <header class="page-header">
+      <div class="page-header__top">
+        <div>
+          <span class="meta-slug">Pipeline</span>
+          <h1 class="page-title">Leads</h1>
+          <p class="page-subtitle">Track potential customers, follow-ups, and status</p>
+        </div>
+        <div class="page-actions">
+          <button type="button" id="openAddLeadModalBtn" class="btn btn--accent">
+            + Add Lead
+          </button>
+        </div>
+      </div>
+    </header>
+
+    
+    <div class="content-panel">
+      
+      <div class="filter-bar">
+        <div class="filter-group">
+          <label for="leadStatusFilter" class="form-label" style="margin-bottom: 0;">Status Filter:</label>
+          <select id="leadStatusFilter" class="filter-select">
+            <option value="all">All Stages (New, Contacted, Converted)</option>
+            <option value="New">New Inbound</option>
+            <option value="Contacted">Contacted / In Discussion</option>
+            <option value="Converted">Converted to Account</option>
+          </select>
+        </div>
+
+        <div id="leadResultCount" class="filter-stats" aria-live="polite">
+          Loading pipeline...
+        </div>
+      </div>
+
+      
+      <div class="table-container">
+        <table class="crm-table" aria-label="Leads Pipeline Table">
+          <thead>
+            <tr>
+              <th scope="col">Lead Name</th>
+              <th scope="col">Company</th>
+              <th scope="col">Contact</th>
+              <th scope="col">Status</th>
+              <th scope="col">Follow-up Date</th>
+            </tr>
+          </thead>
+          <tbody id="leadsTableBody">
+            
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+
+  <dialog id="addLeadDialog" class="crm-dialog" aria-labelledby="addLeadModalTitle">
+    <header class="dialog-header">
+      <h2 id="addLeadModalTitle" class="dialog-title">Add Lead</h2>
+      <button type="button" id="closeLeadDialogBtn" class="dialog-close-btn" aria-label="Close dialog">✕</button>
+    </header>
+
+    <div id="leadModalAlert" style="padding: 0 var(--space-6) var(--space-2);"></div>
+
+    <form id="addLeadForm">
+      <div class="dialog-body">
+        <div class="form-group">
+          <label for="newLeadName" class="form-label">Contact Name <span class="required-mark">*</span></label>
+          <input type="text" id="newLeadName" class="form-input" placeholder="e.g. Henrik Lind" required>
+        </div>
+
+        <div class="form-group">
+          <label for="newLeadCompany" class="form-label">Company / Organization <span class="required-mark">*</span></label>
+          <input type="text" id="newLeadCompany" class="form-input" placeholder="e.g. Nordic Wind Energy" required>
+        </div>
+
+        <div class="form-group">
+          <label for="newLeadContact" class="form-label">Email / Phone <span class="required-mark">*</span></label>
+          <input type="text" id="newLeadContact" class="form-input" placeholder="h.lind@nordicwind.se" required>
+        </div>
+
+        <div class="form-group">
+          <label for="newLeadStatus" class="form-label">Initial Stage</label>
+          <select id="newLeadStatus" class="form-select">
+            <option value="New" selected>New Inbound</option>
+            <option value="Contacted">Contacted</option>
+            <option value="Converted">Converted</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="newLeadFollowUp" class="form-label">Scheduled Follow-up Date</label>
+          <input type="date" id="newLeadFollowUp" class="form-input">
+        </div>
+      </div>
+
+      <footer class="dialog-footer">
+        <button type="button" id="cancelLeadDialogBtn" class="btn btn--secondary">Cancel</button>
+        <button type="submit" class="btn btn--accent">Save Lead</button>
+      </footer>
+    </form>
+  </dialog>
+
+  
+  <script src="scripts/helpers.js"></script>
+  <script src="scripts/store.js"></script>
+  <script src="scripts/view.js"></script>
+  <script src="scripts/pages/leads.js"></script>
+</body>
+</html>

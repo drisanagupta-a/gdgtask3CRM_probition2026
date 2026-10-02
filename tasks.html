@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Tasks — Task CRM</title>
   <meta name="description" content="Operational tasks management with priority and status filters.">
 
-  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
 
   <link rel="stylesheet" href="styles/reset.css">
   <link rel="stylesheet" href="styles/tokens.css">
@@ -20,150 +19,333 @@
 </head>
 <body class="app-wrapper">
 
-
+  <!-- TOP SESSION BAR -->
   <header class="identity-bar">
     <div class="identity-bar__inner">
-      
+
       <div class="identity-session">
-        <span class="session-user">
-          <span class="meta-slug">Session:</span>
-          <strong id="sessionUserDisplay">admin@taskcrm.io</strong>
-        </span>
-        <button type="button" id="logoutBtn" class="session-logout-btn" title="Sign out of current session">
+        
+
+        <button
+          type="button"
+          id="logoutBtn"
+          class="session-logout-btn"
+          title="Sign out of current session"
+        >
           Sign Out
         </button>
       </div>
+
     </div>
   </header>
 
 
+
   <nav class="nav-rail" aria-label="Main Navigation">
     <div class="nav-rail__inner">
-      <a href="dashboard.html" class="nav-link" data-page="dashboard">Dashboard</a>
-      <a href="customers.html" class="nav-link" data-page="customers">Customers</a>
-      <a href="leads.html" class="nav-link" data-page="leads">Leads</a>
-      <a href="tasks.html" class="nav-link" data-page="tasks">Tasks</a>
+
+      <a href="dashboard.html" class="nav-link" data-page="dashboard">
+        Dashboard
+      </a>
+
+      <a href="customers.html" class="nav-link" data-page="customers">
+        Customers
+      </a>
+
+      <a href="leads.html" class="nav-link" data-page="leads">
+        Leads
+      </a>
+
+      <a href="tasks.html" class="nav-link" data-page="tasks">
+        Tasks
+      </a>
+
     </div>
   </nav>
 
+
  
-  <main class="main-container">
-    <header class="page-header">
+  <main class="main-container tasks-main">
+
+<body class="app-wrapper">
+
+  <main class="main-container tasks-main">
+
+    <header class="page-header tasks-header">
       <div class="page-header__top">
+
         <div>
           <span class="meta-slug">Execution</span>
+
           <h1 class="page-title">Tasks</h1>
-          <p class="page-subtitle">Track upcoming tasks, deadlines, and priorities</p>
+
+          <p class="page-subtitle">
+            Track upcoming tasks, deadlines, and priorities
+          </p>
         </div>
+
         <div class="page-actions">
-          <button type="button" id="openAddTaskModalBtn" class="btn btn--accent">
+          <button
+            type="button"
+            id="openAddTaskModalBtn"
+            class="btn btn--accent"
+          >
             + Add Task
           </button>
         </div>
+
       </div>
     </header>
 
-   
-    <div class="content-panel">
-    
+
+    <!-- TASK SUMMARY CARDS -->
+
+    <section class="task-summary" aria-label="Task Summary">
+
+      <div class="task-summary__item">
+        <div>
+          <span>Total Tasks</span>
+          <strong id="totalTaskCount">0</strong>
+        </div>
+      </div>
+
+      <div class="task-summary__item">
+        <div>
+          <span>Pending</span>
+          <strong id="pendingTaskCount">0</strong>
+        </div>
+      </div>
+
+      <div class="task-summary__item">
+        <div>
+          <span>In Progress</span>
+          <strong id="progressTaskCount">0</strong>
+        </div>
+      </div>
+
+      <div class="task-summary__item">
+        <div>
+          <span>Completed</span>
+          <strong id="completedTaskCount">0</strong>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- TASK TABLE -->
+
+    <section class="content-panel tasks-panel">
+
       <div class="filter-bar">
+
         <div class="filter-group">
-          <div style="display: flex; align-items: center; gap: var(--space-2);">
-            <label for="taskStatusFilter" class="form-label" style="margin-bottom: 0;">Status:</label>
-            <select id="taskStatusFilter" class="filter-select">
-              <option value="all">All Statuses (Pending, In Progress, Done)</option>
+
+          <div class="task-filter-group">
+            <label for="taskStatusFilter" class="form-label">
+              Status:
+            </label>
+
+            <select
+              id="taskStatusFilter"
+              class="filter-select"
+            >
+              <option value="all">All Statuses</option>
               <option value="Pending">Pending</option>
               <option value="In Progress">In Progress</option>
               <option value="Done">Done</option>
             </select>
           </div>
 
-          <div style="display: flex; align-items: center; gap: var(--space-2);">
-            <label for="taskPriorityFilter" class="form-label" style="margin-bottom: 0;">Priority:</label>
-            <select id="taskPriorityFilter" class="filter-select">
-              <option value="all">All Priorities (High, Medium, Low)</option>
-              <option value="High">High Urgency</option>
-              <option value="Medium">Medium Priority</option>
-              <option value="Low">Low Priority</option>
+
+          <div class="task-filter-group">
+            <label for="taskPriorityFilter" class="form-label">
+              Priority:
+            </label>
+
+            <select
+              id="taskPriorityFilter"
+              class="filter-select"
+            >
+              <option value="all">All Priorities</option>
+              <option value="High">High</option>
+              <option value="Medium">Medium</option>
+              <option value="Low">Low</option>
             </select>
           </div>
+
         </div>
 
-        <div id="taskResultCount" class="filter-stats" aria-live="polite">
+
+        <div
+          id="taskResultCount"
+          class="filter-stats"
+          aria-live="polite"
+        >
           Loading tasks...
         </div>
+
       </div>
 
-     
+
       <div class="table-container">
-        <table class="crm-table" aria-label="Operational Tasks Table">
+
+        <table
+          class="crm-table task-table"
+          aria-label="Operational Tasks Table"
+        >
+
           <thead>
             <tr>
-              <th scope="col" style="width: 42%;">Task Description</th>
-              <th scope="col" style="width: 18%;">Due Date (Ascending)</th>
-              <th scope="col" style="width: 14%;">Priority</th>
-              <th scope="col" style="width: 14%;">Status</th>
-              <th scope="col" style="width: 12%;">Quick Action</th>
+              <th scope="col">Task Description</th>
+              <th scope="col">Due Date</th>
+              <th scope="col">Priority</th>
+              <th scope="col">Status</th>
+              <th scope="col">Quick Action</th>
             </tr>
           </thead>
+
           <tbody id="tasksTableBody">
-           
           </tbody>
+
         </table>
+
       </div>
-    </div>
+
+    </section>
+
   </main>
 
- 
-  <dialog id="addTaskDialog" class="crm-dialog" aria-labelledby="addTaskModalTitle">
+
+  <!-- ADD TASK MODAL -->
+
+  <dialog
+    id="addTaskDialog"
+    class="crm-dialog"
+    aria-labelledby="addTaskModalTitle"
+  >
+
     <header class="dialog-header">
-      <h2 id="addTaskModalTitle" class="dialog-title">Add Task</h2>
-      <button type="button" id="closeTaskDialogBtn" class="dialog-close-btn" aria-label="Close dialog">✕</button>
+
+      <h2 id="addTaskModalTitle" class="dialog-title">
+        Add Task
+      </h2>
+
+      <button
+        type="button"
+        id="closeTaskDialogBtn"
+        class="dialog-close-btn"
+        aria-label="Close dialog"
+      >
+        ✕
+      </button>
+
     </header>
 
-    <div id="taskModalAlert" style="padding: 0 var(--space-6) var(--space-2);"></div>
+
+    <div
+      id="taskModalAlert"
+      style="padding: 0 var(--space-6) var(--space-2);"
+    ></div>
+
 
     <form id="addTaskForm">
+
       <div class="dialog-body">
-        <div class="form-group">
-          <label for="newTaskDescription" class="form-label">Task Objective <span class="required-mark">*</span></label>
-          <input type="text" id="newTaskDescription" class="form-input" placeholder="e.g. Audit quarterly invoices for Zurich account" required>
-        </div>
 
         <div class="form-group">
-          <label for="newTaskDate" class="form-label">Target Completion Date <span class="required-mark">*</span></label>
-          <input type="date" id="newTaskDate" class="form-input" required>
+          <label for="newTaskDescription" class="form-label">
+            Task Objective
+            <span class="required-mark">*</span>
+          </label>
+
+          <input
+            type="text"
+            id="newTaskDescription"
+            class="form-input"
+            placeholder="e.g. Audit quarterly invoices for Zurich account"
+            required
+          >
         </div>
 
+
         <div class="form-group">
-          <label for="newTaskPriority" class="form-label">Urgency / Priority</label>
-          <select id="newTaskPriority" class="form-select">
+          <label for="newTaskDate" class="form-label">
+            Target Completion Date
+            <span class="required-mark">*</span>
+          </label>
+
+          <input
+            type="date"
+            id="newTaskDate"
+            class="form-input"
+            required
+          >
+        </div>
+
+
+        <div class="form-group">
+          <label for="newTaskPriority" class="form-label">
+            Urgency / Priority
+          </label>
+
+          <select
+            id="newTaskPriority"
+            class="form-select"
+          >
             <option value="Low">Low Priority</option>
             <option value="Medium" selected>Medium Priority</option>
             <option value="High">High Urgency</option>
           </select>
         </div>
 
+
         <div class="form-group">
-          <label for="newTaskStatus" class="form-label">Initial State</label>
-          <select id="newTaskStatus" class="form-select">
+          <label for="newTaskStatus" class="form-label">
+            Initial State
+          </label>
+
+          <select
+            id="newTaskStatus"
+            class="form-select"
+          >
             <option value="Pending" selected>Pending</option>
             <option value="In Progress">In Progress</option>
             <option value="Done">Done</option>
           </select>
         </div>
+
       </div>
 
+
       <footer class="dialog-footer">
-        <button type="button" id="cancelTaskDialogBtn" class="btn btn--secondary">Cancel</button>
-        <button type="submit" class="btn btn--accent">Save Task</button>
+
+        <button
+          type="button"
+          id="cancelTaskDialogBtn"
+          class="btn btn--secondary"
+        >
+          Cancel
+        </button>
+
+        <button
+          type="submit"
+          class="btn btn--accent"
+        >
+          Save Task
+        </button>
+
       </footer>
+
     </form>
+
   </dialog>
+
 
   <script src="scripts/helpers.js"></script>
   <script src="scripts/store.js"></script>
   <script src="scripts/view.js"></script>
   <script src="scripts/pages/tasks.js"></script>
+
 </body>
 </html>

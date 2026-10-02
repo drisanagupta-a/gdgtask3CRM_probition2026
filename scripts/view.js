@@ -182,42 +182,124 @@ const TaskCRMView = (function () {
   }
 
   function renderLeadsRows(leads) {
-    if (!leads || leads.length === 0) {
+  if (!leads || leads.length === 0) {
+    return `
+      <tr>
+        <td colspan="6">
+          ${renderEmptyState(
+            'No leads found',
+            'No leads match your current search or status filter.'
+          )}
+        </td>
+      </tr>
+    `;
+  }
+
+  return leads
+    .map((lead, index) => {
+      const badgeType = getStatusBadgeType(lead.status);
+      const overdue = H.isOverdue(lead.followUpDate, lead.status);
+      const rowClass = overdue ? 'is-overdue-row lead-row' : 'lead-row';
+      const formattedDate = lead.followUpDate
+        ? H.formatDate(lead.followUpDate)
+        : 'No follow-up';
+
+      const dateDisplay = overdue
+        ? `
+          <span class="lead-overdue">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            ${H.escapeHtml(formattedDate)}
+            <small>Overdue</small>
+          </span>
+        `
+        : `
+          <span class="lead-date">
+            <i class="fa-regular fa-calendar"></i>
+            ${H.escapeHtml(formattedDate)}
+          </span>
+        `;
+
       return `
-        <tr>
-          <td colspan="5">
-            ${renderEmptyState(
-              'No leads found',
-              'No leads match the selected criteria.'
-            )}
+        <tr
+          class="${rowClass}"
+          data-lead-id="${H.escapeHtml(lead.id)}"
+          style="--row-index:${index}"
+        >
+
+          <td>
+            <div class="lead-name-cell">
+              <div class="lead-avatar">
+                ${H.escapeHtml(
+                  (lead.name || '?').charAt(0).toUpperCase()
+                )}
+              </div>
+
+              <div>
+                <strong>${H.escapeHtml(lead.name)}</strong>
+                <span class="lead-record-label">Lead</span>
+              </div>
+            </div>
           </td>
+
+          <td>
+            <span class="lead-company">
+              ${H.escapeHtml(lead.company)}
+            </span>
+          </td>
+
+          <td>
+            <a
+              href="mailto:${H.escapeHtml(lead.contact)}"
+              class="lead-contact"
+            >
+              <i class="fa-regular fa-envelope"></i>
+              ${H.escapeHtml(lead.contact)}
+            </a>
+          </td>
+
+          <td>
+            ${renderBadge(lead.status, badgeType)}
+          </td>
+
+          <td>
+            ${dateDisplay}
+          </td>
+
+          <td>
+            <div class="lead-actions">
+
+              <button
+                type="button"
+                class="lead-action-btn lead-action-btn--edit"
+                data-action="edit"
+                data-id="${H.escapeHtml(lead.id)}"
+                title="Edit lead"
+                aria-label="Edit ${H.escapeHtml(lead.name)}"
+              >
+                <i class="fa-solid fa-pen"></i>
+              </button>
+
+              <button
+                type="button"
+                class="lead-action-btn lead-action-btn--delete"
+                data-action="delete"
+                data-id="${H.escapeHtml(lead.id)}"
+                title="Delete lead"
+                aria-label="Delete ${H.escapeHtml(lead.name)}"
+              >
+                <i class="fa-solid fa-trash"></i>
+              </button>
+
+            </div>
+          </td>
+
         </tr>
       `;
-    }
+    })
+    .join('');
+}
 
-    return leads
-      .map(lead => {
-        const badgeType = getStatusBadgeType(lead.status);
-        const overdue = H.isOverdue(lead.followUpDate, lead.status);
-        const rowClass = overdue ? 'is-overdue-row' : '';
-        const formattedDate = H.formatDate(lead.followUpDate);
-
-        const dateDisplay = overdue
-          ? `<span class="text-overdue" title="Action Overdue"><span aria-hidden="true">!</span> ${H.escapeHtml(formattedDate)} (Overdue)</span>`
-          : `<span class="tabular-nums">${H.escapeHtml(formattedDate)}</span>`;
-
-        return `
-          <tr class="${rowClass}" data-lead-id="${H.escapeHtml(lead.id)}">
-            <td><strong>${H.escapeHtml(lead.name)}</strong></td>
-            <td>${H.escapeHtml(lead.company)}</td>
-            <td><a href="mailto:${H.escapeHtml(lead.contact)}" class="text-muted">${H.escapeHtml(lead.contact)}</a></td>
-            <td>${renderBadge(lead.status, badgeType)}</td>
-            <td>${dateDisplay}</td>
-          </tr>
-        `;
-      })
-      .join('');
-  }
+    
 
   function renderTasksRows(tasks) {
     if (!tasks || tasks.length === 0) {

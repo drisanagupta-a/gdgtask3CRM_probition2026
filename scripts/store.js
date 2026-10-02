@@ -702,6 +702,19 @@ function deleteCustomer(id) {
 
     return list[index];
   }
+  function deleteLead(id) {
+  const list = getLeads();
+  const lead = list.find(l => l.id === id);
+
+  if (!lead) return false;
+
+  const filtered = list.filter(l => l.id !== id);
+  safeSet(STORAGE_KEYS.LEADS, filtered);
+
+  addActivity(`Lead deleted: ${lead.name} (${lead.company})`);
+
+  return true;
+}
 
   function getTasks() {
     return safeGet(STORAGE_KEYS.TASKS, []);
@@ -907,6 +920,7 @@ function deleteCustomer(id) {
     getLeads,
     addLead,
     updateLead,
+    deleteLead,
     getTasks,
     addTask,
     updateTask,
